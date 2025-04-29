@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->id();
             $table->string('nombre')->nullable(false);
             $table->foreignId('municipio_id')->nullable(true)->constrained('municipios')->onDelete('set null');
+            $table->foreignId('corregimiento_id')->nullable(true)->constrained('corregimientos')->onDelete('set null');
         });
     }
 
