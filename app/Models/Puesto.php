@@ -24,10 +24,5 @@ class Puesto extends Model
     public function mesas()
     {
         return $this->hasMany(Mesa::class, 'puesto_id', 'id');
-    }
-
-    public function votantes()
-    {
-        return $this->hasMany(Votante::class, 'puesto_id', 'id');
-    }
+    }    
 }

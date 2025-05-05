@@ -37,12 +37,7 @@ class Votante extends Model
     {
         return $this->belongsTo(Barrio::class, 'barrio_id', 'id');
     }
-
-    public function puesto()
-    {
-        return $this->belongsTo(Puesto::class, 'puesto_id', 'id');
-    }
-
+    
     public function mesa()
     {
         return $this->belongsTo(Mesa::class, 'mesa_id', 'id');
