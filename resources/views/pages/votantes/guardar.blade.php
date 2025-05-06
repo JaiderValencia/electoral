@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.tailwind')
 
 @section('titulo', 'Guardar votante')
 
