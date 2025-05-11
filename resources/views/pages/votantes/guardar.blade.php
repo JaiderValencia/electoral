@@ -20,93 +20,139 @@
                             <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium"
                                 for="nombre">Nombre Completo</label>
                             <input
-                                class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-gray-500 disabled:cursor-not-allowed disabled:opacity-50 h-10"
-                                id="nombre" name="nombre" placeholder="Ingrese el nombre completo" required="" type="text">
+                                class="{{ $errors->has('nombre') ? 'border-red-500!' : null }} border border-input flex w-full rounded-md bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-gray-500 disabled:cursor-not-allowed disabled:opacity-50 h-10"
+                                id="nombre" name="nombre" placeholder="Ingrese el nombre completo" required type="text"
+                                maxlength="255">
+
+                            @if ($errors->has('nombre'))
+                                <span class="text-[12px] text-red-500 select-none">{{$errors->first('nombre')}}</span>
+                            @endif
                         </div>
                         <div class="space-y-1.5">
                             <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium"
                                 for="cedula">Cédula</label>
                             <input
-                                class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-gray-500 disabled:cursor-not-allowed disabled:opacity-50 h-10"
-                                id="cedula" name="cedula" placeholder="ingrese la cédula" required="" type="text">
+                                class="{{ $errors->has('cedula') ? 'border-red-500!' : null }} flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-gray-500 disabled:cursor-not-allowed disabled:opacity-50 h-10"
+                                id="cedula" name="cedula" placeholder="ingrese la cédula" required="" type="text"
+                                maxlength="255">
+
+                            @if ($errors->has('cedula'))
+                                <span class="text-[12px] text-red-500 select-none">{{$errors->first('cedula')}}</span>
+                            @endif
                         </div>
                         <div class="space-y-1.5">
                             <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium"
                                 for="telefono">Teléfono</label>
                             <input
-                                class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-gray-500 disabled:cursor-not-allowed disabled:opacity-50 h-10"
-                                id="telefono" name="telefono" placeholder="Número de teléfono" required type="number">
+                                class="{{ $errors->has('telefono') ? 'border-red-500!' : null }} flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-gray-500 disabled:cursor-not-allowed disabled:opacity-50 h-10"
+                                id="telefono" name="telefono" placeholder="Número de teléfono" required type="number"
+                                maxlength="10">
+
+                            @if ($errors->has('telefono'))
+                                <span class="text-[12px] text-red-500 select-none">{{$errors->first('telefono')}}</span>
+                            @endif
                         </div>
                         <div class="space-y-1.5">
                             <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium"
                                 for="municipio">Municipio</label>
                             <select required name="municipio" id="municipio"
-                                class="hover:cursor-pointer w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-gray-500">
+                                class="{{ $errors->has('municipio') ? 'border-red-500!' : null }} hover:cursor-pointer w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-gray-500">
                                 <option value="" selected disabled>Seleccione un municipio</option>
-                                <option value="Quibdo">Quibdó</option>
+                                @foreach ($municipios as $municipio)
+                                    <option value="{{ $municipio->id }}">{{ $municipio->nombre }}</option>
+                                @endforeach
                             </select>
+
+                            @if ($errors->has('municipio'))
+                                <span class="text-[12px] text-red-500 select-none">{{$errors->first('municipio')}}</span>
+                            @endif
                         </div>
                         <div class="space-y-1.5">
                             <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium"
                                 for="corregimiento">Corregimiento</label>
                             <select required name="corregimiento" id="corregimiento"
-                                class="hover:cursor-pointer w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-gray-500">
+                                class="{{ $errors->has('corregimiento') ? 'border-red-500!' : null }} hover:cursor-pointer w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-gray-500">
                                 <option value="" selected disabled>Seleccione un corregimiento</option>
                                 <option value="corregimiento1">Corregimiento 1</option>
                                 <option value="corregimiento2">Corregimiento 2</option>
                                 <option value="corregimiento3">Corregimiento 3</option>
                             </select>
+
+                            @if ($errors->has('corregimiento'))
+                                <span class="text-[12px] text-red-500 select-none">{{$errors->first('corregimiento')}}</span>
+                            @endif
                         </div>
                         <div class="space-y-1.5">
                             <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium"
                                 for="barrio">Barrio</label>
                             <select required name="barrio" id="barrio"
-                                class="hover:cursor-pointer w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-gray-500">
+                                class="{{ $errors->has('barrio') ? 'border-red-500!' : null }} hover:cursor-pointer w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-gray-500">
                                 <option value="" selected disabled>Seleccione un barrio</option>
                                 <option value="barrio1">Barrio 1</option>
                                 <option value="barrio2">Barrio 2</option>
                                 <option value="barrio3">Barrio 3</option>
                             </select>
+
+                            @if ($errors->has('barrio'))
+                                <span class="text-[12px] text-red-500 select-none">{{$errors->first('barrio')}}</span>
+                            @endif
                         </div>
                         <div class="space-y-1.5">
                             <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium"
                                 for="puesto">Puesto de votacion</label>
                             <select required name="puesto" id="puesto"
-                                class="hover:cursor-pointer w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-gray-500">
+                                class="{{ $errors->has('puesto') ? 'border-red-500!' : null }} hover:cursor-pointer w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-gray-500">
                                 <option value="" selected disabled>Seleccione un puesto</option>
                                 <option value="puesto1">puesto 1</option>
                                 <option value="puesto2">puesto 2</option>
                                 <option value="puesto3">puesto 3</option>
                             </select>
+
+                            @if ($errors->has('puesto'))
+                                <span class="text-[12px] text-red-500 select-none">{{$errors->first('puesto')}}</span>
+                            @endif
                         </div>
                         <div class="space-y-1.5">
                             <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium"
                                 for="mesa">Mesa de votación</label>
                             <select required name="mesa" id="mesa"
-                                class="hover:cursor-pointer w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-gray-500">
+                                class="{{ $errors->has('mesa') ? 'border-red-500!' : null }} hover:cursor-pointer w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-gray-500">
                                 <option value="" selected disabled>Seleccione una mesa</option>
                                 <option value="mesa1">mesa 1</option>
                                 <option value="mesa2">mesa 2</option>
                                 <option value="mesa3">mesa 3</option>
                             </select>
+
+                            @if ($errors->has('mesa'))
+                                <span class="text-[12px] text-red-500 select-none">{{$errors->first('mesa')}}</span>
+                            @endif
                         </div>
                         <div class="space-y-1.5">
                             <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium"
                                 for="compromiso">Compromiso</label>
                             <select required name="compromiso" id="compromiso"
-                                class="hover:cursor-pointer w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-gray-500">
+                                class="{{ $errors->has('compromiso') ? 'border-red-500!' : null }} hover:cursor-pointer w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-gray-500">
                                 <option value="" selected disabled>Seleccione un compromiso</option>
-                                <option value="comrpomiso1">comrpomiso 1</option>
-                                <option value="comrpomiso2">comrpomiso 2</option>
-                                <option value="comrpomiso3">comrpomiso 3</option>
+                                @foreach ($compromisos as $compromiso)
+                                    <option value="{{ $compromiso->id }}">{{ $compromiso->nombre }}</option>
+                                @endforeach
                             </select>
+
+                            @if ($errors->has('compromiso'))
+                                <span class="text-[12px] text-red-500 select-none">{{$errors->first('compromiso')}}</span>
+                            @endif
                         </div>
                         <div class="space-y-1.5">
                             <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium"
                                 for="recomendación">¿A quién recomienda?</label>
                             <input
-                                class="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-gray-500 disabled:cursor-not-allowed disabled:opacity-50 h-10"
-                                id="recomendación" name="recomendación" placeholder="Ingresa a quien recomienda" required type="text">
+                                class="{{ $errors->has('recomendacion') ? 'border-red-500!' : null}} flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-gray-500 disabled:cursor-not-allowed disabled:opacity-50 h-10"
+                                id="recomendación" name="recomendación" placeholder="Ingresa a quien recomienda" type="text"
+                                maxlength="255">
+
+                            @if ($errors->has('recomendacion'))
+                                <span class="text-[12px] text-red-500 select-none">{{$errors->first('recomendacion')}}</span>
+                            @endif
                         </div>
                         <div class="flex space-x-3 pt-2">
                             <button

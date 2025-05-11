@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Compromiso;
+use App\Models\Municipio;
 use Illuminate\Http\Request;
 use App\Models\Votante;
 
@@ -13,8 +15,14 @@ class votantesController extends Controller
     }
 
     public function vistaGuardar(Request $req)
-    {
-        return view('pages.votantes.guardar');
+    {      
+        $municipios = Municipio::all();
+        $compormisos = Compromiso::all();
+
+        return view('pages.votantes.guardar', [
+            "municipios" => $municipios,
+            "compromisos" => $compormisos,            
+        ]);
     }
 
     public function guardar(Request $req)
