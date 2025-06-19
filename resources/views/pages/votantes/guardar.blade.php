@@ -73,9 +73,6 @@
                             <select required name="corregimiento" id="corregimiento"
                                 class="{{ $errors->has('corregimiento') ? 'border-red-500!' : null }} hover:cursor-pointer w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-gray-500">
                                 <option value="" selected disabled>Seleccione un corregimiento</option>
-                                <option value="corregimiento1">Corregimiento 1</option>
-                                <option value="corregimiento2">Corregimiento 2</option>
-                                <option value="corregimiento3">Corregimiento 3</option>
                             </select>
 
                             @if ($errors->has('corregimiento'))
@@ -177,4 +174,8 @@
             </div>
         </div>
     </main>
+@endsection
+
+@section('scripts')
+    @vite('resources/js/votantes/correlacion.js')
 @endsection
