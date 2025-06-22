@@ -1,108 +1,421 @@
-@extends('layouts.tailwind')
+@extends('layouts.bootstrap')
 
-@section('titulo', 'Vista de votantes')
-
-@section('css')
-    @vite('resources/css/votantes/style.css')
-@endsection
+@section('titulo', 'votantes')
 
 @section('contenido')
-    <main class="min-h-screen">
-        <div class="container mx-auto py-6">
-            <div class="rounded-lg border bg-card text-card-foreground border-none shadow-sm" data-v0-t="card">
-                <div class="flex flex-col space-y-1.5 p-6 pb-3">
-                    <div class="flex items-center justify-between">
-                        <h3 class="tracking-tight text-2xl font-bold">Votantes registrados</h3>
-                        <a href="{{ route('votantes.vistaGuardar') }}"
-                            class="hover:cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-white h-10 px-4 py-2 bg-emerald-600 hover:bg-emerald-700">Nuevo
-                            votante</a>
-                    </div>
-                </div>
-                <div class="p-6 pt-0">
-                    <div class="mb-4">
-                        <div class="relative">
-                            <input
-                                class="flex h-10 w-full rounded-md border px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-gray-500 focus-visible:outline-2 focus-visible:outline-gray-500 disabled:cursor-not-allowed disabled:opacity-50 pl-10 bg-slate-50 border-slate-200"
-                                placeholder="Buscar por nombre o documento...">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Votantes</strong>
+
+                <!-- Modal para registrar -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCrear">
+                    Agregar votante
+                    <i class="bi bi-person-add"></i>
+                </button>
+
+                <div class="modal fade" id="modalCrear" tabindex="-1" role="dialog" aria-labelledby="modalCrearLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalCrearLabel">Agregar votante</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('votantes.agregar') }}" method="post" class="form-horizontal"
+                                    id="formulario-agregar">
+                                    @csrf
+                                    <div class="row form-group">
+                                        <div class="col col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                                <input type="text" id="input1-group1" name="cedula" placeholder="Cédula"
+                                                    class="@error('cedula') is-invalid @enderror form-control">
+                                            </div>
+                                            @if ($errors->any('cedula'))
+                                                <span class="text-danger mt-2">{{$errors->first('cedula')}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                                <input type="text" id="input1-group1" name="nombre"
+                                                    placeholder="Nombre completo" class="@error('nombre') is-invalid @enderror form-control">
+                                            </div>
+                                            @if ($errors->any('nombre'))
+                                                <span class="text-danger mt-2">{{$errors->first('nombre')}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                                <input type="number" id="input1-group1" name="telefono"
+                                                    placeholder="Telefono" class="@error('telefono') is-invalid @enderror form-control">
+                                            </div>
+                                            @if ($errors->any('telefono'))
+                                                <span class="text-danger mt-2">{{$errors->first('telefono')}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                                <select name="municipio" id="municipio" class="@error('municipio') is-invalid @enderror form-control">
+                                                    <option selected disabled>Municipio</option>
+                                                    @foreach ($municipios as $municipio)
+                                                        <option value="{{ $municipio->id }}">{{ $municipio->nombre }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            @if ($errors->any('municipio'))
+                                                <span class="text-danger mt-2">{{$errors->first('municipio')}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                                <select name="corregimiento" id="corregimiento" class="@error('corregimiento') is-invalid @enderror form-control">
+                                                    <option selected disabled>Corregimiento</option>
+                                                </select>
+                                            </div>
+                                            @if ($errors->any('corregimiento'))
+                                                <span class="text-danger mt-2">{{$errors->first('corregimiento')}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                                <select name="barrio" id="barrio" class="@error('barrio') is-invalid @enderror form-control">
+                                                    <option selected disabled>Barrio</option>
+                                                </select>
+                                            </div>
+                                            @if ($errors->any('barrio'))
+                                                <span class="text-danger mt-2">{{$errors->first('barrio')}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                                <select name="puesto" id="puesto" class="@error('puesto') is-invalid @enderror form-control">
+                                                    <option selected disabled>Puesto de votación</option>
+                                                </select>
+                                            </div>
+                                            @if ($errors->any('puesto'))
+                                                <span class="text-danger mt-2">{{$errors->first('puesto')}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                                <select name="mesa" id="mesa" class="@error('mesa') is-invalid @enderror form-control">
+                                                    <option selected disabled>Mesa de votación</option>
+                                                </select>
+                                            </div>
+                                            @if ($errors->any('mesa'))
+                                                <span class="text-danger mt-2">{{$errors->first('mesa')}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                                <select name="compromiso" id="select" class="@error('compromiso') is-invalid @enderror form-control">
+                                                    <option selected disabled>Compromiso</option>
+                                                    @foreach ($compromisos as $compromiso)
+                                                        <option value="{{ $compromiso->id }}">{{ $compromiso->nombre }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            @if ($errors->any('compromiso'))
+                                                <span class="text-danger mt-2">{{$errors->first('compromiso')}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                                <input type="text" id="input1-group1" name="recomendacion"
+                                                    placeholder="A quién recomienda" class="@error('recomendacion') is-invalid @enderror form-control">
+                                            </div>
+                                            @if ($errors->any('recomendacion'))
+                                                <span class="text-danger mt-2">{{$errors->first('recomendacion')}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary" form="formulario-agregar">Agregar</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="rounded-xl relative w-full overflow-auto">
-                        <table class="[&amp;_tr]:border-gray-500 w-full caption-bottom text-sm">
-                            <thead class="bg-slate-100">
-                                <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                                    <th
-                                        class="h-12 px-4 text-center align-middle text-gray-500 [&amp;:has([role=checkbox])]:pr-0 font-semibold">
-                                        Nombre</th>
-                                    <th
-                                        class="h-12 px-4 text-center align-middle text-gray-500 [&amp;:has([role=checkbox])]:pr-0 font-semibold">
-                                        Documento</th>
-                                    <th
-                                        class="h-12 px-4 text-center align-middle text-gray-500 [&amp;:has([role=checkbox])]:pr-0 font-semibold">
-                                        Teléfono</th>
-                                    <th
-                                        class="h-12 px-4 text-center align-middle text-gray-500 [&amp;:has([role=checkbox])]:pr-0 font-semibold">
-                                        Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="border-b transition-colors data-[state=selected]:bg-muted hover:bg-slate-50">
-                                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium text-center">
-                                        José
-                                        Martínez</td>
-                                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 text-center">
-                                        1076331914
+                </div>
+
+                <!-- Fin modal para registrar -->
+            </div>
+            <div class="card-body">
+                <div class="overflow-x-scroll">
+                    <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Cedula</th>
+                                <th>Nombre</th>
+                                <th>Telefono</th>
+                                <th class="text-center">Municipio</th>
+                                <th class="text-center">Corregimiento</th>
+                                <th class="text-center">Barrio</th>
+                                <th class="text-center">Puesto</th>
+                                <th class="text-center">Mesa</th>
+                                <th class="text-center">Compromiso</th>
+                                <th class="text-center">Recomendacion</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($votantes as $votante)
+                                <tr>
+                                    <td class="text-nowrap text-center">{{ $votante->cedula }}</td>
+                                    <td class="text-nowrap text-center">{{ $votante->nombre }}</td>
+                                    <td class="text-nowrap text-center">{{ $votante->telefono }}</td>
+                                    <td class="text-nowrap text-center">
+                                        {{ $votante->barrio->corregimiento->municipio->nombre }}
                                     </td>
-                                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 text-center">
-                                        3218258785
+                                    <td class="text-nowrap text-center">{{ $votante->barrio->corregimiento->nombre }}
                                     </td>
-                                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 text-center">
-                                        <div class="flex justify-center gap-2">
-                                            <button
-                                                class="hover:cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border rounded-md px-3 h-8 border-yellow-500 bg-yellow-50 text-yellow-700 hover:bg-yellow-100 hover:text-yellow-800"><svg
-                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                    class="lucide lucide-pencil h-4 w-4">
-                                                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
-                                                    <path d="m15 5 4 4"></path>
-                                                </svg><span class="sr-only">Editar</span>
-                                            </button>
-                                            <button
-                                                class="hover:cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border rounded-md px-3 h-8 border-red-500 bg-red-50 text-red-700 hover:bg-red-100 hover:text-red-800"><svg
-                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                    class="lucide lucide-trash2 h-4 w-4">
-                                                    <path d="M3 6h18"></path>
-                                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                                                    <line x1="10" x2="10" y1="11" y2="17"></line>
-                                                    <line x1="14" x2="14" y1="11" y2="17"></line>
-                                                </svg><span class="sr-only">Eliminar</span>
-                                            </button>
+                                    <td class="text-nowrap text-center">{{ $votante->barrio->nombre }}</td>
+                                    <td class="text-nowrap text-center">{{ $votante->mesa->puesto->nombre }}</td>
+                                    <td class="text-nowrap text-center">{{ $votante->mesa->descripcion }}</td>
+                                    <td class="text-nowrap text-center">{{ $votante->compromiso->nombre}}</td>
+                                    <td class="text-nowrap text-center">{{ $votante->recomendacion}}</td>
+                                    <td class="d-flex flex-row acciones-container">
+                                        <button type="button" class="btn btn-warning text-white" data-toggle="modal"
+                                            data-target="#modalEditar-{{$votante->id}}">
+                                            <i class="bi bi-pencil-fill"></i>
+                                        </button>
+
+                                        <div class="modal fade" id="modalEditar-{{$votante->id}}" tabindex="-1" role="dialog"
+                                            aria-labelledby="modalEditar-{{$votante->id}}Label" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modalEditar-{{$votante->id}}Label">Editar al
+                                                            votante {{$votante->nombre}}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="{{ route('votantes.editar', $votante->id) }}"
+                                                            method="post" class="form-horizontal" id="formulario-editar">
+                                                            @csrf
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-12">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-addon"><i
+                                                                                class="fa fa-user"></i></div>
+                                                                        <input type="text" id="input1-group1" name="cedula"
+                                                                            placeholder="Cédula" class="form-control"
+                                                                            value="{{$votante->cedula}}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-12">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-addon"><i
+                                                                                class="fa fa-user"></i></div>
+                                                                        <input type="text" id="input1-group1" name="nombre"
+                                                                            placeholder="Nombre completo" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-12">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-addon"><i
+                                                                                class="fa fa-user"></i></div>
+                                                                        <input type="number" id="input1-group1" name="telefono"
+                                                                            placeholder="Telefono" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-12">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-addon"><i
+                                                                                class="fa fa-user"></i></div>
+                                                                        <select name="municipio" id="municipio"
+                                                                            class="form-control">
+                                                                            <option selected disabled>Municipio</option>
+                                                                            @foreach ($municipios as $municipio)
+                                                                                <option value="{{ $municipio->id }}">
+                                                                                    {{ $municipio->nombre }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-12">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-addon"><i
+                                                                                class="fa fa-user"></i></div>
+                                                                        <select name="corregimiento" id="corregimiento"
+                                                                            class="form-control">
+                                                                            <option selected disabled>Corregimiento</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-12">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-addon"><i
+                                                                                class="fa fa-user"></i></div>
+                                                                        <select name="barrio" id="barrio" class="form-control">
+                                                                            <option selected disabled>Barrio</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-12">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-addon"><i
+                                                                                class="fa fa-user"></i></div>
+                                                                        <select name="puesto" id="puesto" class="form-control">
+                                                                            <option selected disabled>Puesto de votación
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-12">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-addon"><i
+                                                                                class="fa fa-user"></i></div>
+                                                                        <select name="mesa" id="mesa" class="form-control">
+                                                                            <option selected disabled>Mesa de votación</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-12">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-addon"><i
+                                                                                class="fa fa-user"></i></div>
+                                                                        <select name="compromiso" id="select"
+                                                                            class="form-control">
+                                                                            <option selected disabled>Compromiso</option>
+                                                                            @foreach ($compromisos as $compromiso)
+                                                                                <option value="{{ $compromiso->id }}">
+                                                                                    {{ $compromiso->nombre }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-12">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-addon"><i
+                                                                                class="fa fa-user"></i></div>
+                                                                        <input type="text" id="input1-group1"
+                                                                            name="recomendacion"
+                                                                            placeholder="A quién recomienda"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Cancelar</button>
+                                                        <button type="submit" class="btn btn-primary"
+                                                            form="formulario-editar">Editar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                            data-target="#modalEliminar-{{$votante->id}}">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+
+                                        <div class="modal fade" id="modalEliminar-{{$votante->id}}" tabindex="-1" role="dialog"
+                                            aria-labelledby="modalEliminar-{{$votante->id}}Title" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modalEliminar-{{$votante->id}}Title">
+                                                            Borrar un votante
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <span class="font-weight-bold">¿Estás seguro de que quieres borrar
+                                                            al votante {{$votante->nombre}}?</span>
+                                                        <form action="{{ route('votantes.borrar', $votante->id) }}"
+                                                            method="post" id="formulario-borrar">
+                                                            @csrf
+                                                            @method('delete')
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Cerrar</button>
+                                                        <button type="submit" form="formulario-borrar"
+                                                            class="btn btn-danger">Borrar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="mt-4 flex justify-between items-center text-sm text-slate-500">
-                        <div>Mostrando 8 de 8 registros</div>
-                        <div class="flex items-center gap-2">
-                            <button
-                                class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-gray-300 hover:text-black rounded-md px-3 h-8 hover:cursor-pointer">Anterior</button>
-                            <button
-                                class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-gray-300 hover:text-black rounded-md px-3 h-8 hover:cursor-pointer">Siguiente</button>
-                        </div>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    Mostrando {{ $votantes->count() }} votantes de {{ $votantes->total() }} guardados
+                    {{ $votantes->onEachSide(5)->links() }}
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+@endsection
+
+@section('scripts')
+    @vite('resources/js/votantes/correlacion.js')
 @endsection

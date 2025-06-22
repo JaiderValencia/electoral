@@ -63,7 +63,7 @@ class validarVotantesCrear
                 )
             ],
             "compromiso" => "required|integer|exists:compromisos,id",
-            "recomendacion" => "nulleable|string|max:255"
+            "recomendacion" => "nullable|string|max:255"
         ];
 
 
@@ -140,7 +140,10 @@ class validarVotantesCrear
         $validator = Validator::make($request->all(), $reglas, $mensajes);
 
         if ($validator->fails()) {
-            return back()->withErrors($validator->errors())->withInput();
+            return back()
+                ->withErrors($validator->errors())
+                ->withInput()
+                ->with("error_crear", "si");
         }
 
         return $next($request);

@@ -16,10 +16,8 @@ return new class extends Migration {
             $table->string('nombre')->nullable(false);
             $table->string('cedula')->unique()->nullable(false);
             $table->string('telefono')->nullable(false);
-            $table->foreignId('municipio_id')->nullable(true)->constrained('municipios')->onDelete('set null');
             $table->foreignId('corregimiento_id')->nullable(true)->constrained('corregimientos')->onDelete('set null');
             $table->foreignId('barrio_id')->nullable(true)->constrained('barrios')->onDelete('set null');
-            $table->foreignId('puesto_id')->nullable(true)->constrained('puestos')->onDelete('set null');
             $table->foreignId('mesa_id')->nullable(true)->constrained('mesas')->onDelete('set null');
             $table->foreignId('compromiso_id')->nullable(true)->constrained('compromisos')->onDelete('set null');
             $table->string('recomendacion')->nullable(true);
@@ -32,6 +30,6 @@ return new class extends Migration {
     public function down(): void
     {
         //
-        Schema::dropIfExists('votantes');        
+        Schema::dropIfExists('votantes');
     }
 };

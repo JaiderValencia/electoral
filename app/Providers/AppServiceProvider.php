@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
-        Paginator::useTailwind();
+        Paginator::useBootstrapFour();
 
         RateLimiter::for('jsons', function (Request $request) {
             return Limit::perMinute(10)->by($request->ip());

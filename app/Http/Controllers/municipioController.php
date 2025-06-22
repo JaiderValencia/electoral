@@ -11,7 +11,7 @@ class municipioController extends Controller
     public function obtenerCorregimientos($municipioId)
     {        
         $corregimientos = Municipio::where('id', $municipioId)
-            ->with('corregimientos')
+            ->with('corregimientos.barrios.puestos.mesas')
             ->first()
             ->corregimientos;
 

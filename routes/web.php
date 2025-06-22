@@ -10,9 +10,10 @@ Route::get('/login', [usuariosController::class, 'loginVista'])->name('usuarios.
 
 Route::prefix('votantes')->group(function () {
     Route::get('/', [votantesController::class, 'listado'])->name('votantes.listado');
-    Route::get('/registrar', [votantesController::class, 'vistaGuardar'])->name('votantes.vistaGuardar');
 
-    Route::post('/registrar', [votantesController::class, 'guardar'])->middleware(validarVotantesCrear::class)->name('votantes.guardar');
+    Route::post('/agregar', [votantesController::class, 'guardar'])->middleware(validarVotantesCrear::class)->name('votantes.agregar');
+    Route::put('/{id}', [votantesController::class, 'modificar'])->name('votantes.editar');
+    Route::delete('/{id}', [votantesController::class, 'borrar'])->name('votantes.borrar');
 });
 
 Route::prefix('municipios')->group(function () {

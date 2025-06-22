@@ -13,21 +13,14 @@ class Votante extends Model
     protected $fillable = [
         'nombre',
         'cedula',
-        'telefono',
-        'municipio_id',
+        'telefono',        
         'corregimiento_id',
-        'barrio_id',
-        'puesto_id',
+        'barrio_id',        
         'mesa_id',
         'compromiso_id',
         'recomendacion'
     ];
-
-    public function municipio()
-    {
-        return $this->belongsTo(Municipio::class, 'municipio_id', 'id');
-    }
-
+    
     public function corregimiento()
     {
         return $this->belongsTo(Corregimiento::class, 'corregimiento_id', 'id');
