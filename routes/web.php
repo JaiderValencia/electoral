@@ -3,6 +3,7 @@
 use App\Http\Controllers\municipioController;
 use App\Http\Controllers\usuariosController;
 use App\Http\Middleware\validarVotantesCrear;
+use App\Http\Middleware\validarVotantesEditar;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\votantesController;
 
@@ -12,7 +13,7 @@ Route::prefix('votantes')->group(function () {
     Route::get('/', [votantesController::class, 'listado'])->name('votantes.listado');
 
     Route::post('/agregar', [votantesController::class, 'guardar'])->middleware(validarVotantesCrear::class)->name('votantes.agregar');
-    Route::put('/{id}', [votantesController::class, 'modificar'])->name('votantes.editar');
+    Route::put('/{id}', [votantesController::class, 'modificar'])->middleware(validarVotantesEditar::class)->name('votantes.editar');
     Route::delete('/{id}', [votantesController::class, 'borrar'])->name('votantes.borrar');
 });
 

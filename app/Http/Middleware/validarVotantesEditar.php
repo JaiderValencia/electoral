@@ -2,13 +2,15 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Votante;
 use App\Rules\correlacion;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Validator;
+use Illuminate\Validation\Rule;
 
-class validarVotantesCrear
+class validarVotantesEditar
 {
     /**
      * Handle an incoming request.
@@ -17,9 +19,24 @@ class validarVotantesCrear
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $id = $request->route()->parameter('id');
+
+        $existe = Votante::where('id', $id)->count();
+
+        if (!$existe) {
+            return back()
+                ->withInput()
+                ->with("edit_error_id", $id);
+        }
+
         $reglas = [
             "nombre" => "required|string|max:255",
-            "cedula" => "required|string|max:255|unique:votantes,cedula",
+            "cedula" => [
+                "required",
+                "string",
+                "max:255",
+                Rule::unique('votantes')->ignore($id)
+            ],
             "telefono" => "required|string|max:10",
             "municipio" => "required|integer|exists:municipios,id",
             "corregimiento" => [
@@ -143,7 +160,7 @@ class validarVotantesCrear
             return back()
                 ->withErrors($validator->errors())
                 ->withInput()
-                ->with("error_crear", true);
+                ->with("edit_error_id", $id);
         }
 
         return $next($request);

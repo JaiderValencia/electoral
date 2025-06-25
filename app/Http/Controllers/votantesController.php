@@ -15,8 +15,10 @@ class votantesController extends Controller
         $municipios = Municipio::all();
         $compromisos = Compromiso::all();
         $puestos = Puesto::all();
-        $votantes = Votante::with(['barrio.corregimiento.municipio', 'mesa.puesto', 'compromiso'])->paginate(1);
-
+        $votantes = Votante::with(['barrio.corregimiento.municipio', 'mesa.puesto', 'compromiso'])
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+        
         return view('pages.votantes.listado', [
             "municipios" => $municipios,
             "compromisos" => $compromisos,

@@ -8,20 +8,15 @@ const barrioSelect = document.getElementById('barrio')
 const puestoSelect = document.getElementById('puesto')
 const mesaSelect = document.getElementById('mesa')
 
-corregimientoSelect.disabled = true
-barrioSelect.disabled = true
-puestoSelect.disabled = true
-mesaSelect.disabled = true
-
 const municipioHandle = async (event) => {
-    const selectedMunicipio = municipioSelect.value
-
-    corregimientoSelect.disabled = false
+    const selectedMunicipio = municipioSelect.value    
 
     corregimientoSelect.options.length = 1
     barrioSelect.options.length = 1
     puestoSelect.options.length = 1
     mesaSelect.options.length = 1
+
+    if (isNaN(parseInt(selectedMunicipio))) return
 
     if (!corregimientos.some(corregimiento => corregimiento.municipio_id == selectedMunicipio)) {
 
@@ -40,25 +35,36 @@ const municipioHandle = async (event) => {
 
         corregimientoOption.value = corregimiento.id
         corregimientoOption.textContent = corregimiento.nombre
+
+        if (typeof oldCorregimiento !== 'undefined' && oldCorregimiento == corregimiento.id) corregimientoOption.selected = true
+
         corregimientoSelect.appendChild(corregimientoOption)
-
-        for (const barrio of corregimiento.barrios) {
-            const barrioOption = document.createElement('option')
-            barrioOption.value = barrio.id
-            barrioOption.textContent = barrio.nombre
-
-            barrioSelect.appendChild(barrioOption)
-        }
-
-        corregimientoHandle()
-        barrioHandle()
-        puestoHandle()
     })
+
+    corregimientoHandle()
+    barrioHandle()
+    puestoHandle()
 }
 
 const corregimientoHandle = (event) => {
-    barrioSelect.disabled = false
+    barrioSelect.options.length = 1
+    puestoSelect.options.length = 1
+    mesaSelect.options.length = 1
+    
     corregimientoSeleccionado = corregimientos.find(e => e.id == corregimientoSelect.value)
+
+    if (!corregimientoSeleccionado || !corregimientoSeleccionado.barrios.length) return
+
+    for (const barrio of corregimientoSeleccionado.barrios) {
+        const barrioOption = document.createElement('option')
+        barrioOption.value = barrio.id
+        barrioOption.textContent = barrio.nombre
+
+        if (typeof oldBarrio !== 'undefined' && oldBarrio == barrio.id) barrioOption.selected = true
+
+
+        barrioSelect.appendChild(barrioOption)
+    }
 }
 
 const barrioHandle = (event) => {
@@ -67,9 +73,7 @@ const barrioHandle = (event) => {
 
     if (!corregimientoSeleccionado || !corregimientoSeleccionado.barrios.length) return
 
-    const selectedBarrio = barrioSelect.value
-
-    puestoSelect.disabled = false
+    const selectedBarrio = barrioSelect.value    
 
     barrioSeleccionado = corregimientoSeleccionado.barrios.find(barrio => barrio.id == selectedBarrio)
 
@@ -83,6 +87,9 @@ const barrioHandle = (event) => {
         option.value = puesto.id
         option.textContent = puesto.nombre
 
+        if (typeof oldPuesto !== 'undefined' && oldPuesto == puesto.id) option.selected = true
+
+
         puestoSelect.appendChild(option)
     }
 }
@@ -91,13 +98,13 @@ const puestoHandle = (event) => {
     const selectedPuesto = puestoSelect.value
     mesaSelect.options.length = 1
 
-    if (!barrioSeleccionado || !barrioSeleccionado.puestos.length) return
+    if (!barrioSeleccionado || !barrioSeleccionado.puestos.length) return    
 
-    mesaSelect.disabled = false
+    const puesto = barrioSeleccionado.puestos.find(e => e.id == selectedPuesto)
 
-    const mesas = barrioSeleccionado.puestos.find(e => e.id == selectedPuesto).mesas
+    if (!puesto || !puesto.mesas.length) return
 
-    if (!mesas || !mesas.length) return
+    const mesas = puesto.mesas
 
     for (const mesa of mesas) {
         const option = document.createElement('option')
@@ -105,14 +112,23 @@ const puestoHandle = (event) => {
         option.value = mesa.id
         option.textContent = mesa.descripcion
 
+        if (typeof oldMesa !== 'undefined' && oldMesa == mesa.id) option.selected = true
+
+
         mesaSelect.appendChild(option)
     }
 }
 
-municipioSelect.addEventListener('change', municipioHandle)
+municipioSelect.addEventListener('input', municipioHandle)
 
-corregimientoSelect.addEventListener('change', corregimientoHandle)
+corregimientoSelect.addEventListener('input', corregimientoHandle)
 
-barrioSelect.addEventListener('change', barrioHandle)
+barrioSelect.addEventListener('input', barrioHandle)
 
-puestoSelect.addEventListener('change', puestoHandle)
+puestoSelect.addEventListener('input', puestoHandle)
+
+//ejecutarlos por si hubo algun error de digitación
+municipioHandle()
+corregimientoHandle()
+barrioHandle()
+puestoHandle()
