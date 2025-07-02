@@ -19,9 +19,7 @@ class Votante extends Model
         'mesa_id',
         'compromiso_id',
         'recomendacion',
-        'genero_id',
-        'altitud',
-        'longitud'
+        'genero_id',        
     ];
 
     public function genero()

@@ -43,9 +43,7 @@ class votantesController extends Controller
                 "mesa_id" => $req->input('mesa'),
                 "compromiso_id" => $req->input('compromiso'),
                 "recomendacion" => $req->input('recomendacion'),
-                "genero_id" => $req->input('genero'),
-                "altitud" => "00000",
-                "longitud" => "00000",
+                "genero_id" => $req->input('genero'),                
             ]);
 
             return redirect()->route('votantes.listado');
@@ -76,9 +74,7 @@ class votantesController extends Controller
                 "mesa_id" => $req->input('mesa'),
                 "compromiso_id" => $req->input('compromiso'),
                 "recomendacion" => $req->input('recomendacion'),
-                "genero_id" => $req->input('genero'),
-                "altitud" => "00000",
-                "longitud" => "00000",
+                "genero_id" => $req->input('genero'),                
             ]);
 
             return redirect()->route('votantes.listado');

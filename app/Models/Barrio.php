@@ -13,6 +13,8 @@ class Barrio extends Model
         'nombre',
         'municipio_id',
         'corregimiento_id',
+        'altitud',
+        'longitud'
     ];
 
     public $timestamps = false;
@@ -26,7 +28,7 @@ class Barrio extends Model
     {
         return $this->belongsTo(Corregimiento::class, 'corregimiento_id', 'id');
     }
-    
+
     public function puestos()
     {
         return $this->hasMany(Puesto::class, 'barrio_id', 'id');

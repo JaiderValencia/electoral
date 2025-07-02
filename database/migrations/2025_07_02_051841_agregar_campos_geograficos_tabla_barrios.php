@@ -11,8 +11,9 @@ return new class extends Migration {
     public function up(): void
     {
         //
-        Schema::table('votantes', function (Blueprint $table) {
-            $table->foreignId('genero_id')->nullable(true)->constrained('generos')->onDelete('set null');
+        Schema::table('barrios', function (Blueprint $table) {
+            $table->string('altitud')->nullable(false);
+            $table->string('longitud')->nullable(false);
         });
     }
 
@@ -22,8 +23,9 @@ return new class extends Migration {
     public function down(): void
     {
         //
-        Schema::table('votantes', function (Blueprint $table) {
-            $table->dropColumn('genero_id');            
+        Schema::table('barrios', function (Blueprint $table) {
+            $table->dropColumn('altitud');
+            $table->dropColumn('longitud');
         });
     }
 };
