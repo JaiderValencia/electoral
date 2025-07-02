@@ -63,7 +63,8 @@ class validarVotantesCrear
                 )
             ],
             "compromiso" => "required|integer|exists:compromisos,id",
-            "recomendacion" => "nullable|string|max:255"
+            "recomendacion" => "nullable|string|max:255",
+            "genero" => "required|integer|exists:generos,id",
         ];
 
 
@@ -124,6 +125,12 @@ class validarVotantesCrear
             "recomendacion.max" => "El campo recomendación no debe exceder los 255 caracteres."
         ];
 
+        $mensajesGenero = [
+            "genero.required" => "El campo género es obligatorio.",
+            "genero.integer" => "El campo género debe ser uno de la lista.",
+            "genero.exists" => "El género seleccionado no es válido.",
+        ];
+
         $mensajes = [
             ...$mensajesNombre,
             ...$mensajesCedula,
@@ -134,7 +141,8 @@ class validarVotantesCrear
             ...$mensajesPuesto,
             ...$mensajesMesa,
             ...$mensajesCompromiso,
-            ...$mensajesRecomendacion
+            ...$mensajesRecomendacion,
+            ...$mensajesGenero
         ];
 
         $validator = Validator::make($request->all(), $reglas, $mensajes);
