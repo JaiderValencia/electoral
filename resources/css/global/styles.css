@@ -1867,6 +1867,11 @@ header .form-inline .search-form.close {
   gap: 15px;
 }
 
+.input-group-addon > i{
+  width: 16px;
+  height: 16px;
+}
+
 .overflow-x-scroll {
   overflow-x: scroll;
 }

@@ -353,8 +353,7 @@
                                                         <div class="row form-group">
                                                             <div class="col col-md-12">
                                                                 <div class="input-group" id="nombre-group-{{$votante->id}}">
-                                                                    <div class="input-group-addon"><i
-                                                                            class="fa fa-user"></i></div>
+                                                                    <div class="input-group-addon"><i class="bi bi-alphabet"></i></div>
 
                                                                     @php
                                                                         $hayErrorNombre = $errors->has('nombre') && (session('edit_error_id') == $votante->id);
@@ -374,8 +373,7 @@
                                                         <div class="row form-group">
                                                             <div class="col col-md-12">
                                                                 <div class="input-group" id="telefono-group-{{$votante->id}}">
-                                                                    <div class="input-group-addon"><i
-                                                                            class="fa fa-user"></i></div>
+                                                                    <div class="input-group-addon"><i class="bi bi-phone"></i></div>
 
                                                                     @php
                                                                         $hayErrorTelefono = $errors->has('telefono') && (session('edit_error_id') == $votante->id);
@@ -396,7 +394,7 @@
                                                         <div class="row form-group">
                                                             <div class="col col-md-12">
                                                                 <div class="input-group" id="genero-group-{{$votante->id}}">
-                                                                    <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                                                    <div class="input-group-addon"><i class="bi bi-gender-ambiguous"></i></div>
 
                                                                     @php
                                                                         $hayErrorGenero = $errors->has('genero') && (session('edit_error_id') == $votante->id);
@@ -432,7 +430,7 @@
                                                         <div class="row form-group">
                                                             <div class="col col-md-12">
                                                                 <div class="input-group" id="municipio-group-{{$votante->id}}">
-                                                                    <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                                                    <div class="input-group-addon"><i class="fa-solid fa-location-dot"></i></div>
 
                                                                     @php
                                                                         $hayErrorMunicipio = $errors->has('municipio') && (session('edit_error_id') == $votante->id);
@@ -467,8 +465,7 @@
                                                         <div class="row form-group">
                                                             <div class="col col-md-12">
                                                                 <div class="input-group" id="corregimiento-group-{{$votante->id}}">
-                                                                    <div class="input-group-addon"><i
-                                                                            class="fa fa-user"></i></div>
+                                                                    <div class="input-group-addon"><i class="fa-solid fa-map-location-dot"></i></div>
 
                                                                     @php
                                                                         $hayErrorCorregimiento = $errors->has('corregimiento') && (session('edit_error_id') == $votante->id);
@@ -489,8 +486,7 @@
                                                         <div class="row form-group">
                                                             <div class="col col-md-12">
                                                                 <div class="input-group" id="barrio-group-{{$votante->id}}">
-                                                                    <div class="input-group-addon"><i
-                                                                            class="fa fa-user"></i></div>
+                                                                    <div class="input-group-addon"><i class="fa-solid fa-location-arrow"></i></div>
                                                                     @php
                                                                         $hayErrorBarrio = $errors->has('barrio') && (session('edit_error_id') == $votante->id);
                                                                     @endphp
@@ -510,8 +506,7 @@
                                                         <div class="row form-group">
                                                             <div class="col col-md-12">
                                                                 <div class="input-group" id="puesto-group-{{$votante->id}}">
-                                                                    <div class="input-group-addon"><i
-                                                                            class="fa fa-user"></i></div>
+                                                                    <div class="input-group-addon"><i class="fa-solid fa-building-user"></i></div>
                                                                     @php
                                                                         $hayErrorPuesto = $errors->has('puesto') && (session('edit_error_id') == $votante->id);
                                                                     @endphp
@@ -532,8 +527,7 @@
                                                         <div class="row form-group">
                                                             <div class="col col-md-12">
                                                                 <div class="input-group" id="mesa-group-{{$votante->id}}">
-                                                                    <div class="input-group-addon"><i
-                                                                            class="fa fa-user"></i></div>
+                                                                    <div class="input-group-addon"><i class="fa-solid fa-person-booth"></i></div>
 
                                                                     @php
                                                                         $hayErrorMesa = $errors->has('mesa') && (session('edit_error_id') == $votante->id);
@@ -554,8 +548,7 @@
                                                         <div class="row form-group">
                                                             <div class="col col-md-12">
                                                                 <div class="input-group" id="compromiso-group-{{$votante->id}}">
-                                                                    <div class="input-group-addon"><i
-                                                                            class="fa fa-user"></i></div>
+                                                                    <div class="input-group-addon"><i class="bi bi-person-heart"></i></div>
                                                                     @php
                                                                         $hayErrorCompromiso = $errors->has('compromiso') && (session('edit_error_id') == $votante->id);
                                                                         
@@ -587,8 +580,7 @@
                                                         <div class="row form-group">
                                                             <div class="col col-md-12">
                                                                 <div class="input-group" id="recomendacion-group-{{$votante->id}}">
-                                                                    <div class="input-group-addon"><i
-                                                                            class="fa fa-user"></i></div>
+                                                                    <div class="input-group-addon"><i class="fa fa-user"></i></div>
 
                                                                     @php
                                                                         $hayErrorRecomendacion = $errors->has('recomendacion') && (session('edit_error_id') == $votante->id);                                                                                                                                        

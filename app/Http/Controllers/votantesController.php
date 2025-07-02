@@ -43,7 +43,7 @@ class votantesController extends Controller
                 "mesa_id" => $req->input('mesa'),
                 "compromiso_id" => $req->input('compromiso'),
                 "recomendacion" => $req->input('recomendacion'),
-                "genero_id" => $req->input('genero'),                
+                "genero_id" => $req->input('genero'),
             ]);
 
             return redirect()->route('votantes.listado');
@@ -74,12 +74,17 @@ class votantesController extends Controller
                 "mesa_id" => $req->input('mesa'),
                 "compromiso_id" => $req->input('compromiso'),
                 "recomendacion" => $req->input('recomendacion'),
-                "genero_id" => $req->input('genero'),                
+                "genero_id" => $req->input('genero'),
             ]);
 
             return redirect()->route('votantes.listado');
         } catch (\Throwable $th) {
             return response($th)->setStatusCode(500);
         }
+    }
+
+    public function filtro()
+    {
+        
     }
 }
