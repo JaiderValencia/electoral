@@ -15,7 +15,11 @@ const cargarCorregimientos = async (municipio_id) => {
 
         return response
     } catch (error) {
-        alert("Hubo un error al cargar los corregimientos")
+        Swal.fire({
+            title: "Error",
+            text: "Algo falló al cargar el corregimiento, vuelve a intentar",
+            icon: "error"
+        });
     }
 }
 

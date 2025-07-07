@@ -46,7 +46,12 @@ class votantesController extends Controller
                 "genero_id" => $req->input('genero'),
             ]);
 
-            return redirect()->route('votantes.listado');
+            return redirect()->route('votantes.listado')->with('alerta', [
+                "icon" => "success",
+                "title" => "Se ha guardado correctamente",
+                "text" => "",
+                "confirmButtonText" => "cerrar"
+            ]);
         } catch (\Throwable $th) {
             return response($th)->setStatusCode(500);
         }
@@ -56,7 +61,13 @@ class votantesController extends Controller
     {
         try {
             Votante::where('id', $id)->first()->delete();
-            return redirect()->route('votantes.listado');
+
+            return redirect()->route('votantes.listado')->with('alerta', [
+                "icon" => "success",
+                "title" => "Se ha eliminado correctamente",
+                "text" => "",
+                "confirmButtonText" => "cerrar"
+            ]);
         } catch (\Throwable $th) {
             return response($th)->setStatusCode(500);
         }
@@ -77,14 +88,19 @@ class votantesController extends Controller
                 "genero_id" => $req->input('genero'),
             ]);
 
-            return redirect()->route('votantes.listado');
+            return back()->with('alerta', [
+                "icon" => "success",
+                "title" => "Se ha modificado correctamente al votante " + $req->input("nombre"),
+                "text" => "",
+                "confirmButtonText" => "cerrar"
+            ]);
         } catch (\Throwable $th) {
             return response($th)->setStatusCode(500);
         }
     }
 
-    public function filtro()
+    public function buscador()
     {
-        
+
     }
 }

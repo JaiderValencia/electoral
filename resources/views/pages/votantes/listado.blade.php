@@ -284,11 +284,16 @@
             </div>
 
             <!-- Fin modal para registrar -->
-        </div>        
-            <div class="card-body">                
-                    <table id="bootstrap-data-table" class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
+
+            <div class="row mb-3 mt-3">
+                <div class="col">
+                    <input type="text" id="buscador" class="form-control" placeholder="Buscar...">
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
                                 <th class="text-center">Cedula</th>
                                 <th class="text-center">Nombre</th>
                                 <th class="text-center">Telefono</th>                                
@@ -678,6 +683,15 @@
                 const edit_error_id = {{session('edit_error_id', -1)}};
                 document.getElementById(`btn-modal-editar-${edit_error_id}`).click();
             })
+        @endif
+
+        @if (session('alerta'))
+            Swal.fire({
+                icon: "{{ session('alerta.icon') }}",
+                title: "{{ session('alerta.title') }}",
+                text: "{{ session('alerta.text') }}",
+                confirmButtonText: "{{ session('alerta.confirmButtonText') }}"
+            });
         @endif
     </script>
 @endsection
