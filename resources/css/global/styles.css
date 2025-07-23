@@ -653,6 +653,10 @@ canvas {
   padding-bottom: 15px;
 }
 
+form#buscador {
+  gap: 10px;
+}
+
 .messenger-box li {
   list-style: none;
   padding-bottom: 20px;
@@ -1867,7 +1871,7 @@ header .form-inline .search-form.close {
   gap: 15px;
 }
 
-.input-group-addon > i{
+.input-group-addon>i {
   width: 16px;
   height: 16px;
 }

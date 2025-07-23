@@ -11,8 +11,7 @@ Route::get('/login', [usuariosController::class, 'loginVista'])->name('usuarios.
 
 Route::prefix('votantes')->group(function () {
     Route::get('/', [votantesController::class, 'listado'])->name('votantes.listado');
-    Route::get('/buscar', [votantesController::class, 'buscador'])->name('votantes.buscador');
-
+    
     Route::post('/agregar', [votantesController::class, 'guardar'])->middleware(validarVotantesCrear::class)->name('votantes.agregar');
     Route::put('/{id}', [votantesController::class, 'modificar'])->middleware(validarVotantesEditar::class)->name('votantes.editar');
     Route::delete('/{id}', [votantesController::class, 'borrar'])->name('votantes.borrar');

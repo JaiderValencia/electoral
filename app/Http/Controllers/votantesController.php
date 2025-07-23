@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Symfony\Component\Panther\Client;
 use App\Models\Compromiso;
 use App\Models\Genero;
 use App\Models\Municipio;
@@ -11,13 +12,23 @@ use App\Models\Votante;
 
 class votantesController extends Controller
 {
-    public function listado()
+    public function listado(Request $req)
     {
-
         $generos = Genero::all();
         $municipios = Municipio::all();
         $compromisos = Compromiso::all();
         $puestos = Puesto::all();
+
+        if ($req->query('consulta')) {
+            return $this->buscador(
+                $req,
+                $generos,
+                $municipios,
+                $compromisos,
+                $puestos
+            );
+        }
+
         $votantes = Votante::with(['barrio.corregimiento.municipio', 'mesa.puesto', 'compromiso'])
             ->orderBy('id', 'desc')
             ->paginate(10);
@@ -53,7 +64,12 @@ class votantesController extends Controller
                 "confirmButtonText" => "cerrar"
             ]);
         } catch (\Throwable $th) {
-            return response($th)->setStatusCode(500);
+            return redirect()->route('votante.listado')->with('alerta', [
+                "icon" => "error",
+                "title" => "Error en el servidor",
+                "text" => "Espera unos minutos e intenta nuevamente.",
+                "confirmButtonText" => "aceptar"
+            ]);
         }
     }
 
@@ -69,7 +85,12 @@ class votantesController extends Controller
                 "confirmButtonText" => "cerrar"
             ]);
         } catch (\Throwable $th) {
-            return response($th)->setStatusCode(500);
+            return redirect()->route('votante.listado')->with('alerta', [
+                "icon" => "error",
+                "title" => "Error en el servidor",
+                "text" => "Espera unos minutos e intenta nuevamente.",
+                "confirmButtonText" => "aceptar"
+            ]);
         }
     }
 
@@ -95,12 +116,37 @@ class votantesController extends Controller
                 "confirmButtonText" => "cerrar"
             ]);
         } catch (\Throwable $th) {
-            return response($th)->setStatusCode(500);
+            return redirect()->route('votante.listado')->with('alerta', [
+                "icon" => "error",
+                "title" => "Error en el servidor",
+                "text" => "Espera unos minutos e intenta nuevamente.",
+                "confirmButtonText" => "aceptar"
+            ]);
         }
     }
 
-    public function buscador()
-    {
+    // public function buscador()
+    // {
+    //     $client = Client::createChromeClient();
 
+    //     $client->request('GET', 'https://api-platform.com');       
+    //     $client->clickLink('Getting started');
+    // }
+
+    public function buscador(Request $req, $generos, $municipios, $compromisos, $puestos)
+    {
+        $busqueda = Votante::where('cedula', 'like', '%' . $req->query('consulta') . '%')
+            ->orWhere('nombre', 'like', '%' . $req->query('consulta') . '%')
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+
+        return view('pages.votantes.listado', [
+            "municipios" => $municipios,
+            "compromisos" => $compromisos,
+            "puestos" => $puestos,
+            "votantes" => $busqueda,
+            "generos" => $generos,
+            "consulta" => $req->query('consulta')
+        ]);
     }
 }
